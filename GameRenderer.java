@@ -147,5 +147,9 @@ public class GameRenderer extends JPanel{
     public boolean checkGrid() {
         return logic.checkGrid();
     }
+    public void newGrid(){
+        logic.newGrid();
+        this.repaint();
+    }
 
 }

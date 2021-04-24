@@ -53,41 +53,9 @@ public class LogicProcessor {
     public LogicProcessor() {
         answerGrid = new int[NUM_DIGITS][NUM_DIGITS];
         userGrid = new int[NUM_DIGITS][NUM_DIGITS];
-        Stack<Integer> numList = new Stack<>();
-        ArrayList<Integer> row = new ArrayList<>();
 
-        LinkedList<Coord> gridMaker = new LinkedList<>();
-        for (int j = 0; j < NUM_DIGITS; j++) {
-            for (int k = 0; k < NUM_DIGITS; k++) {
-                gridMaker.add(new Coord(j,k));
-                gridMaker.getLast().resetGuesses();
-            }
-        }
-
-        ListIterator it = gridMaker.listIterator();
-
-        while (it.hasNext()) {
-            Coord temp = (Coord)it.next();
-            if (temp.hasGuess())
-                answerGrid[temp.getRow()][temp.getCol()] = temp.getGuess();
-            else {
-                temp.resetGuesses();
-                answerGrid[temp.getRow()][temp.getCol()] = 0;
-                it.previous();
-            }
-            if (checkDigit(temp.getRow(), temp.getCol()) == false)
-                it.previous();
-        }
-        for (int j = 0; j < NUM_DIGITS; j++) {
-            for (int k = 0; k < NUM_DIGITS; k++) {
-                userGrid[j][k] = answerGrid[j][k];
-            }
-        }
-
-        createPuzzle();
-
+        newGrid();
     }
-
     public LogicProcessor(String filename) {
         answerGrid = new int[NUM_DIGITS][NUM_DIGITS];
         userGrid = new int[NUM_DIGITS][NUM_DIGITS];
@@ -112,8 +80,43 @@ public class LogicProcessor {
         }
         System.out.println(solvable());
     }
+    public void newGrid() {
+        Stack<Integer> numList = new Stack<>();
+        ArrayList<Integer> row = new ArrayList<>();
 
-    // Working on this one
+        LinkedList<Coord> gridMaker = new LinkedList<>();
+        for (int j = 0; j < NUM_DIGITS; j++) {
+            for (int k = 0; k < NUM_DIGITS; k++) {
+                gridMaker.add(new Coord(j,k));
+                gridMaker.getLast().resetGuesses();
+            }
+        }
+        //Collections.shuffle(gridMaker);
+
+        ListIterator it = gridMaker.listIterator();
+
+        while (it.hasNext()) {
+            Coord temp = (Coord)it.next();
+            if (temp.hasGuess())
+                answerGrid[temp.getRow()][temp.getCol()] = temp.getGuess();
+            else {
+                temp.resetGuesses();
+                answerGrid[temp.getRow()][temp.getCol()] = 0;
+                it.previous();
+            }
+            if (checkDigit(temp.getRow(), temp.getCol()) == false)
+                it.previous();
+        }
+        printGrid();
+        for (int j = 0; j < NUM_DIGITS; j++) {
+            for (int k = 0; k < NUM_DIGITS; k++) {
+                userGrid[j][k] = answerGrid[j][k];
+            }
+        }
+
+        createPuzzle();
+    }
+
     private void createPuzzle() {
         Random randCol = new Random();
         Random randRow = new Random();

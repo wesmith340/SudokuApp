@@ -85,7 +85,8 @@ public class Screen {
                             renderer.guess(n);
                             break;
                         case 9:
-                            System.out.println("9");
+                            System.out.println("New Grid");
+                            renderer.newGrid();
                             break;
                         case 10:
                             System.out.println("Check");
